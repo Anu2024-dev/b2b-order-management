@@ -1,0 +1,22 @@
+{
+  "name": "b2b-order-management-platform",
+  "version": "1.0.0",
+  "description": "Arrowstack Internship Project 1: Complete Full-Stack B2B Order Management Platform",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "migrate": "node database/migrate.js",
+    "migrate:test": "NODE_ENV=test node database/migrate.js",
+    "seed": "node database/seed.js",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "test:server": "cd server && npm test",
+    "test": "node server/tests/run-all.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^16.4.7",
+    "pg": "^8.13.1"
+  }
+}

@@ -1,0 +1,218 @@
+TAP version 13
+# Subtest: Authentication & Authorization Suite
+    # Subtest: 1. Successfully registers a new customer with hashed password
+    ok 1 - 1. Successfully registers a new customer with hashed password
+      ---
+      duration_ms: 146.08
+      type: 'test'
+      ...
+    # Subtest: 2. Rejects duplicate email registration with 409 Conflict
+    ok 2 - 2. Rejects duplicate email registration with 409 Conflict
+      ---
+      duration_ms: 7.2797
+      type: 'test'
+      ...
+    # Subtest: 3. Rejects invalid registration data with 400 Bad Request
+    ok 3 - 3. Rejects invalid registration data with 400 Bad Request
+      ---
+      duration_ms: 5.5521
+      type: 'test'
+      ...
+    # Subtest: 4. Successfully logs in with valid credentials
+    ok 4 - 4. Successfully logs in with valid credentials
+      ---
+      duration_ms: 77.3678
+      type: 'test'
+      ...
+    # Subtest: 5. Rejects invalid login password with 401 Unauthorized
+    ok 5 - 5. Rejects invalid login password with 401 Unauthorized
+      ---
+      duration_ms: 71.5699
+      type: 'test'
+      ...
+    # Subtest: 6. Rejects non-existent email login with generic 401 Unauthorized
+    ok 6 - 6. Rejects non-existent email login with generic 401 Unauthorized
+      ---
+      duration_ms: 4.9144
+      type: 'test'
+      ...
+    # Subtest: 7. Rejects requests without Authorization token with 401
+    ok 7 - 7. Rejects requests without Authorization token with 401
+      ---
+      duration_ms: 4.8385
+      type: 'test'
+      ...
+    # Subtest: 8. Rejects requests with malformed/tampered JWT token with 401
+    ok 8 - 8. Rejects requests with malformed/tampered JWT token with 401
+      ---
+      duration_ms: 4.1769
+      type: 'test'
+      ...
+    # Subtest: 9. Rejects expired JWT token with 401
+    ok 9 - 9. Rejects expired JWT token with 401
+      ---
+      duration_ms: 6.5593
+      type: 'test'
+      ...
+    # Subtest: 10. Prevents customer from accessing administrator endpoints with 403 Forbidden
+    ok 10 - 10. Prevents customer from accessing administrator endpoints with 403 Forbidden
+      ---
+      duration_ms: 109.5191
+      type: 'test'
+      ...
+    # Subtest: 11. Customer logout revokes token and subsequent authenticated calls return 401
+    ok 11 - 11. Customer logout revokes token and subsequent authenticated calls return 401
+      ---
+      duration_ms: 84.6071
+      type: 'test'
+      ...
+    # Subtest: 12. Administrator logout revokes token and prevents access to admin endpoints
+    ok 12 - 12. Administrator logout revokes token and prevents access to admin endpoints
+      ---
+      duration_ms: 99.0308
+      type: 'test'
+      ...
+    1..12
+ok 1 - Authentication & Authorization Suite
+  ---
+  duration_ms: 689.3337
+  type: 'suite'
+  ...
+# Subtest: Invoices & Administration Suite
+    # Subtest: 1. Customer A can fetch their own invoice
+    ok 1 - 1. Customer A can fetch their own invoice
+      ---
+      duration_ms: 71.8423
+      type: 'test'
+      ...
+    # Subtest: 2. Customer B is forbidden from accessing Customer A invoice
+    ok 2 - 2. Customer B is forbidden from accessing Customer A invoice
+      ---
+      duration_ms: 8.5843
+      type: 'test'
+      ...
+    # Subtest: 3. PDF invoice download generates valid application/pdf stream
+    ok 3 - 3. PDF invoice download generates valid application/pdf stream
+      ---
+      duration_ms: 47.6468
+      type: 'test'
+      ...
+    # Subtest: 4. Admin dashboard endpoint calculates accurate live database metrics
+    ok 4 - 4. Admin dashboard endpoint calculates accurate live database metrics
+      ---
+      duration_ms: 18.6337
+      type: 'test'
+      ...
+    # Subtest: 5. Admin audit-logs endpoint retrieves audit records
+    ok 5 - 5. Admin audit-logs endpoint retrieves audit records
+      ---
+      duration_ms: 18.7964
+      type: 'test'
+      ...
+    # Subtest: 6. Admin can deactivate and reactivate a customer account
+    ok 6 - 6. Admin can deactivate and reactivate a customer account
+      ---
+      duration_ms: 32.5721
+      type: 'test'
+      ...
+    1..6
+ok 2 - Invoices & Administration Suite
+  ---
+  duration_ms: 557.5804
+  type: 'suite'
+  ...
+# Subtest: Cart & Orders Transactional Suite
+    # Subtest: 1. Customer adds items to cart and server calculates accurate totals
+    ok 1 - 1. Customer adds items to cart and server calculates accurate totals
+      ---
+      duration_ms: 90.9782
+      type: 'test'
+      ...
+    # Subtest: 2. Customer successfully places order in transaction, inventory is deducted atomically
+    ok 2 - 2. Customer successfully places order in transaction, inventory is deducted atomically
+      ---
+      duration_ms: 26.0151
+      type: 'test'
+      ...
+    # Subtest: 3. Customer B is forbidden from accessing Customer A order details (IDOR protection)
+    ok 3 - 3. Customer B is forbidden from accessing Customer A order details (IDOR protection)
+      ---
+      duration_ms: 9.6427
+      type: 'test'
+      ...
+    # Subtest: 4. Admin can view Customer A order details
+    ok 4 - 4. Admin can view Customer A order details
+      ---
+      duration_ms: 8.2818
+      type: 'test'
+      ...
+    # Subtest: 5. Rejects invalid order status transition (e.g. PENDING -> DELIVERED directly)
+    ok 5 - 5. Rejects invalid order status transition (e.g. PENDING -> DELIVERED directly)
+      ---
+      duration_ms: 5.8334
+      type: 'test'
+      ...
+    # Subtest: 6. Cancelling an order restores inventory back to products with audit movement
+    ok 6 - 6. Cancelling an order restores inventory back to products with audit movement
+      ---
+      duration_ms: 11.6899
+      type: 'test'
+      ...
+    1..6
+ok 3 - Cart & Orders Transactional Suite
+  ---
+  duration_ms: 427.2358
+  type: 'suite'
+  ...
+# Subtest: Products & Inventory Suite
+    # Subtest: 1. Admin creates a product successfully
+    ok 1 - 1. Admin creates a product successfully
+      ---
+      duration_ms: 21.2834
+      type: 'test'
+      ...
+    # Subtest: 2. Rejects duplicate SKU with 409 Conflict
+    ok 2 - 2. Rejects duplicate SKU with 409 Conflict
+      ---
+      duration_ms: 8.0123
+      type: 'test'
+      ...
+    # Subtest: 3. Rejects negative price or negative stock with 400 Bad Request
+    ok 3 - 3. Rejects negative price or negative stock with 400 Bad Request
+      ---
+      duration_ms: 6.7891
+      type: 'test'
+      ...
+    # Subtest: 4. Allows admin to adjust inventory positively and records movement
+    ok 4 - 4. Allows admin to adjust inventory positively and records movement
+      ---
+      duration_ms: 10.4657
+      type: 'test'
+      ...
+    # Subtest: 5. Rejects stock deduction exceeding available balance (preventing negative inventory)
+    ok 5 - 5. Rejects stock deduction exceeding available balance (preventing negative inventory)
+      ---
+      duration_ms: 8.7637
+      type: 'test'
+      ...
+    # Subtest: 6. Deactivated product is hidden from customer product catalog
+    ok 6 - 6. Deactivated product is hidden from customer product catalog
+      ---
+      duration_ms: 13.0611
+      type: 'test'
+      ...
+    1..6
+ok 4 - Products & Inventory Suite
+  ---
+  duration_ms: 482.5001
+  type: 'suite'
+  ...
+1..4
+# tests 30
+# suites 4
+# pass 30
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 124075.173
