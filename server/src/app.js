@@ -21,22 +21,29 @@ app.use(
         return callback(null, true);
       }
 
-      // In production: strictly permit only the configured trusted frontend origin
+      const allowedOrigins = (config.cors.origins || []).map((o) =>
+        o.trim().replace(/\/+$/, ""),
+      );
+      const normalizedOrigin = origin.trim().replace(/\/+$/, "");
+
+      // In production: strictly permit only explicitly configured origins
       if (config.env === "production") {
-        if (origin === config.cors.origins.includes(origin)) {
+        if (allowedOrigins.includes(normalizedOrigin)) {
           return callback(null, true);
         }
+
         return callback(
           new Error(
-            "Blocked by CORS policy: Origin not permitted in production",
+            `Blocked by CORS policy: Origin ${origin} not permitted in production`,
           ),
         );
       }
 
-      // In development / test: allow matching origin or any localhost port
+      // In development / test: allow configured origins or any localhost/127.0.0.1 port
       if (
-        origin === config.cors.origin ||
-        origin.startsWith("http://localhost:")
+        allowedOrigins.includes(normalizedOrigin) ||
+        origin.startsWith("http://localhost:") ||
+        origin.startsWith("http://127.0.0.1:")
       ) {
         return callback(null, true);
       }

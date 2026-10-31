@@ -1,8 +1,14 @@
 import axios from 'axios';
 
 // Support decoupled production backend via VITE_API_URL or default to relative /api/v1
-const customApiUrl = import.meta.env.VITE_API_URL;
-const baseURL = customApiUrl ? `${customApiUrl.replace(/\/+$/, '')}/api/v1` : '/api/v1';
+const rawApiUrl = (import.meta.env.VITE_API_URL || '').trim().replace(/\/+$/, '');
+const baseURL = rawApiUrl
+  ? rawApiUrl.endsWith('/api/v1')
+    ? rawApiUrl
+    : rawApiUrl.endsWith('/api')
+      ? `${rawApiUrl}/v1`
+      : `${rawApiUrl}/api/v1`
+  : '/api/v1';
 
 const api = axios.create({
   baseURL,
