@@ -34,7 +34,7 @@ const poolConfig = config.db.connectionString
       connectionTimeoutMillis: config.db.connectionTimeoutMillis,
     };
 
-const pool = new pg.Pool(poolConfig);
+export const pool = new pg.Pool(poolConfig);
 
 pool.on('error', (err) => {
   console.error('[DATABASE POOL ERROR]:', err);

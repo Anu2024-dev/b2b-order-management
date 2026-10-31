@@ -1,12 +1,21 @@
 import path from "path";
 import { fileURLToPath } from "url";
+import fs from "fs";
 import dotenv from "dotenv";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Load .env from project root
-dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
+// Load .env: support both project root .env and server/.env
+const rootEnvPath = path.resolve(__dirname, "../../../.env");
+const serverEnvPath = path.resolve(__dirname, "../../.env");
+
+if (fs.existsSync(rootEnvPath)) {
+  dotenv.config({ path: rootEnvPath });
+}
+if (fs.existsSync(serverEnvPath)) {
+  dotenv.config({ path: serverEnvPath, override: true });
+}
 
 const isProduction = process.env.NODE_ENV === "production";
 const isTest = process.env.NODE_ENV === "test";
@@ -31,7 +40,12 @@ export const config = {
   port: parseInt(process.env.PORT || "5000", 10),
   clientPort: parseInt(process.env.CLIENT_PORT || "5173", 10),
   db: {
-    connectionString: process.env.DATABASE_URL || null,
+    connectionString:
+      isProduction
+        ? process.env.DATABASE_URL || null
+        : process.env.DATABASE_URL && !process.env.DATABASE_URL.includes("dpg-") && process.env.USE_DATABASE_URL === "true"
+          ? process.env.DATABASE_URL
+          : null,
     ssl:
       process.env.DB_SSL === "true" ||
       Boolean(

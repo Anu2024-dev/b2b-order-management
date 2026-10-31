@@ -1,5 +1,6 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs';
 import pg from 'pg';
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
@@ -7,7 +8,16 @@ import dotenv from 'dotenv';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
+// Load environment variables: support both project root .env and server/.env
+const rootEnvPath = path.resolve(__dirname, '../.env');
+const serverEnvPath = path.resolve(__dirname, '../server/.env');
+
+if (fs.existsSync(rootEnvPath)) {
+  dotenv.config({ path: rootEnvPath });
+}
+if (fs.existsSync(serverEnvPath)) {
+  dotenv.config({ path: serverEnvPath, override: true });
+}
 
 // Safety check: Block running seed scripts against a production environment
 if (process.env.NODE_ENV === 'production' && process.env.ALLOW_PRODUCTION_SEED !== 'true') {

@@ -6,6 +6,8 @@
   "type": "module",
   "scripts": {
     "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "start": "node server/src/server.js",
+    "dev": "node scripts/dev.js",
     "migrate": "node database/migrate.js",
     "migrate:test": "NODE_ENV=test node database/migrate.js",
     "seed": "node database/seed.js",

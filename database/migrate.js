@@ -7,8 +7,16 @@ import dotenv from 'dotenv';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Load environment variables from project root
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
+// Load environment variables: support both project root .env and server/.env
+const rootEnvPath = path.resolve(__dirname, '../.env');
+const serverEnvPath = path.resolve(__dirname, '../server/.env');
+
+if (fs.existsSync(rootEnvPath)) {
+  dotenv.config({ path: rootEnvPath });
+}
+if (fs.existsSync(serverEnvPath)) {
+  dotenv.config({ path: serverEnvPath, override: true });
+}
 
 const isTest = process.env.NODE_ENV === 'test';
 const dbName = isTest ? (process.env.DB_TEST_NAME || 'b2b_order_db_test') : (process.env.DB_NAME || 'b2b_order_db');
